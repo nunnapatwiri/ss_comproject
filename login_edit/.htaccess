@@ -1,0 +1,25 @@
+# Used when the site runs on Apache (e.g. XAMPP htdocs). Ignored by `php -S`.
+
+# Internal folders: never serve them directly
+RedirectMatch 404 /(includes|config)/
+<FilesMatch "\.(sql|md|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+# Compress text responses
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+# Long browser cache for static files. CSS/JS URLs carry ?v=<file time> (see asset()),
+# so a changed file is fetched again automatically.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css               "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript        "access plus 1 year"
+    ExpiresByType image/webp             "access plus 1 month"
+    ExpiresByType image/png              "access plus 1 month"
+    ExpiresByType image/jpeg             "access plus 1 month"
+    ExpiresByType application/pdf        "access plus 1 week"
+</IfModule>
